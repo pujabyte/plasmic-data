@@ -225,18 +225,13 @@ function PlasmicHomepage__RenderFunc(props: {
               data-plasmic-override={overrides.dataFetcher}
               dataOp={{
                 sourceId: "eazCAw2UoJ54bQnRJnYuNY",
-                opId: "0206a63e-8af2-4908-bad8-0a967f958764",
-                userArgs: {
-                  pagination: [
-                    $state.pagination.pageSize,
-
-                    $state.pagination.startIndex
-                  ]
-                },
-                cacheKey: `plasmic.$.6yDQ7HmBmdNP.$.0206a63e-8af2-4908-bad8-0a967f958764.$.`,
+                opId: "227f3fcb-d98c-4bcd-844c-a49c27834b1d",
+                userArgs: {},
+                cacheKey: `plasmic.$.et_UZZlw0ZIA.$.227f3fcb-d98c-4bcd-844c-a49c27834b1d.$.`,
                 invalidatedKeys: null,
                 roleId: null
               }}
+              name={"datareport"}
               queries={{}}
             >
               {($queries: any) => (
@@ -244,7 +239,11 @@ function PlasmicHomepage__RenderFunc(props: {
                   {(_par => (!_par ? [] : Array.isArray(_par) ? _par : [_par]))(
                     (() => {
                       try {
-                        return $queries.data.data;
+                        return $queries.datareport.data.slice(
+                          $state.pagination.startIndex,
+                          $state.pagination.startIndex +
+                            $state.pagination.pageSize
+                        );
                       } catch (e) {
                         if (
                           e instanceof TypeError ||
@@ -339,7 +338,20 @@ function PlasmicHomepage__RenderFunc(props: {
                         { pageSize: 20 },
                         { pageSize: 50 },
                         { pageSize: 100 }
-                      ]
+                      ],
+                      total: (() => {
+                        try {
+                          return $queries.datareport.data.length;
+                        } catch (e) {
+                          if (
+                            e instanceof TypeError ||
+                            e?.plasmicType === "PlasmicUndefinedDataError"
+                          ) {
+                            return undefined;
+                          }
+                          throw e;
+                        }
+                      })()
                     };
                     initializeCodeComponentStates(
                       $state,
